@@ -2,7 +2,7 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$dbname = "aplikasi-kasir";
+$dbname = "db_kasir";
 
 $conn = mysqli_connect($host, $username, $password, $dbname);
 if (!$conn){
