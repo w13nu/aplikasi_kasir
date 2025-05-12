@@ -12,7 +12,7 @@ while($data = mysqli_fetch_array($result1))
 {
     $user = $data['username'];
     $id = $data['id_login'];
-    $toko = $data['nama_toko'];
+    $toko = $data[''];
     $alamat = $data['alamat'];
     $telp = $data['telepon'];
 }
