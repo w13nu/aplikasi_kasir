@@ -416,9 +416,8 @@ if(isset($_POST['tambahcuy'])){
                                         <option value="Cash">Cash</option>
                                         <option value="QRIS">QRIS</option>
                                     </select>
-                                    <input type="number" class="form-control form-control-sm bg-white" placeholder="0"
-                                    name="pembayaran" id="bayarnya" onchange="totalnya()" required>
-
+                                    <input type="text" class="form-control form-control-sm bg-white" placeholder="0"
+                                    name="pembayaran" id="bayarnya" oninput="formatBayar(this)" onchange="totalnya()" required>
                                 </div>
                                 <div class="col-5 text-right pt-1 pr-2" style="font-weight:500;">Kembalian :</div>
                                 <div class="col-7 pl-0">
@@ -513,17 +512,20 @@ function total() {
     document.getElementById("myCartNew").submit();
   }
     
-  function totalnya() {
-   var harga =  parseInt(document.getElementById('hargatotal').value);
-   var pembayaran =  parseInt(document.getElementById('bayarnya').value);
-   var metode = document.getElementById("metode").value;
+function totalnya() {
+   var harga = parseInt(document.getElementById('hargatotal').value);
+   var pembayaranInput = document.getElementById('bayarnya').value.replace(/\./g, '').replace(/\D/g, '');
+   var pembayaran = parseInt(pembayaranInput || 0);
    var kembali = pembayaran - harga;
-    document.getElementById('total1').value = kembali;
-    document.getElementById('total2').innerHTML = kembali;
-    document.getElementById('bayarnya1').innerHTML = pembayaran;
-    document.getElementById("metode-print").innerHTML = metode;
-    
-  }
+   // Format hasil kembalian
+   var formattedKembali = new Intl.NumberFormat('id-ID').format(kembali < 0 ? 0 : kembali);
+   // Set ke input dan elemen lainnya
+   document.getElementById('total1').value = formattedKembali;
+   document.getElementById('total2').innerHTML = formattedKembali;
+   document.getElementById('bayarnya1').innerHTML = new Intl.NumberFormat('id-ID').format(pembayaran);
+   document.getElementById("metode-print").innerHTML = document.getElementById("metode").value;
+}
+
 
   function changeValuePelanggan(nama_pelanggan) {
       document.getElementById("telepon_pelanggan").value = telepon_pelanggan[nama_pelanggan].telepon_pelanggan;
@@ -568,6 +570,14 @@ function TambahBaru() {
   } else {
     y.style.display = "block";
   }
+}
+function formatBayar(input) {
+    let value = input.value.replace(/\./g, '').replace(/\D/g, '');
+    if (value === '') {
+        input.value = '';
+        return;
+    }
+    input.value = new Intl.NumberFormat('id-ID').format(value);
 }
 </script>
 <?php include 'template/footer.php';?>

@@ -9,7 +9,7 @@
                 $harga_modal = htmlspecialchars($_POST['harga_modal']);
                 $harga_jual = htmlspecialchars($_POST['harga_jual']);
             
-                $tambah = mysqli_query($conn, "INSERT INTO produk (idkategori,kode_produk,nama_produk,stock,harga_modal,harga_jual,satuan)
+                $tambah = mysqli_query($conn, "INSERT INTO produk (idkategori,kode_produk,nama_produk,stock,harga_modal,harga_jual)
                 VALUES ('$idkategori', '$kodeproduk', '$namaproduk', '$stock', '$harga_modal', '$harga_jual')");
             
                 if ($tambah) {
@@ -38,7 +38,7 @@
                     kode_produk='$kodeproduk',
                     stock='$stock',
                     harga_modal='$harga_modal',
-                    harga_jual='$harga_jual',
+                    harga_jual='$harga_jual'
                     WHERE idproduk='$idproduk'");
             
                 if ($update) {
@@ -136,6 +136,8 @@
                                                         <?php
                                                         $dataK=mysqli_query($conn,"SELECT * FROM kategori ORDER BY nama_kategori ASC")or die(mysqli_error());
                                                         while($dk=mysqli_fetch_array($dataK)){
+                                                            // Skip kategori yang sudah dipilih
+                                                            if($dk['idkategori'] == $d['idkategori']) continue;
                                                         ?>
                                                             <option value="<?php echo $dk['idkategori'] ?>" class="small"><?php echo $dk['nama_kategori'] ?></option>
                                                             <?php } ?>
@@ -201,7 +203,7 @@
                 <div class="modal-body">
                     <div class="form-group mb-2">
                         <label>Kode Produk:</label>
-                        <input type="text" name="kode_produk" class="form-control" placeholder="Otomatis berdasarkan kategori" readonly required>
+                        <input type="text" name="kode_produk" class="form-control" placeholder="Otomatis berdasarkan nama produk" readonly required>
                     </div>
                     <div class="form-group mb-2">
                         <label>Nama Produk:</label>
@@ -249,23 +251,58 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.querySelector('#addproduk');
-    const kategoriSelect = modal.querySelector('select[name="idkategori"]');
+    const namaProdukInput = modal.querySelector('input[name="nama_produk"]');
     const kodeProdukInput = modal.querySelector('input[name="kode_produk"]');
 
-    kategoriSelect.addEventListener('change', function () {
-        const idkategori = this.value;
-        if (idkategori) {
-            fetch('kode_produk.php?idkategori=' + idkategori)
-                .then(response => response.text())
-                .then(data => {
-                    kodeProdukInput.value = data;
-                });
+    // Fungsi untuk mendapatkan kode produk
+    function getProductCode(namaProduk) {
+        if (namaProduk.length > 0) {
+            const hurufDepan = namaProduk[0].toUpperCase();
+            
+            // Validasi huruf depan (hanya huruf A-Z)
+            if (/^[A-Z]$/.test(hurufDepan)) {
+                fetch('kode_produk.php?awalan=' + hurufDepan)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        if (data) {
+                            kodeProdukInput.value = data;
+                        } else {
+                            kodeProdukInput.value = '';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        kodeProdukInput.value = '';
+                    });
+            } else {
+                kodeProdukInput.value = '';
+            }
         } else {
             kodeProdukInput.value = '';
+        }
+    }
+
+    // Event listener untuk input nama produk
+    namaProdukInput.addEventListener('input', function() {
+        const namaProduk = this.value.trim();
+        getProductCode(namaProduk);
+    });
+    
+    // Auto-populate kode produk when modal is shown
+    $('#addproduk').on('shown.bs.modal', function () {
+        const namaProduk = namaProdukInput.value.trim();
+        if (namaProduk) {
+            getProductCode(namaProduk);
         }
     });
 });
 </script>
+
 
 <?php if (isset($_SESSION['pesan'])): ?>
 <script>

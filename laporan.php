@@ -1,5 +1,9 @@
 <?php include 'Sidebar.php';?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<?php
+$bulan = isset($_GET['bulan']) ? (int)$_GET['bulan'] : date('n');
+$tahun = isset($_GET['tahun']) ? (int)$_GET['tahun'] : date('Y');
+?>
 <br>
 <div class="page-title">
                 <h1><i class="fas fa-box-open me-2 text-primary"></i>Laporan Transaksi</h1>
@@ -116,31 +120,29 @@
 <div class="card">
     <div class="card-header">
         <div class="card-title">
-            <form method="GET" class="row g-2">
+        <form method="GET" class="row g-2 mt-3">
                 <div class="col-md-3">
                     <select name="bulan" class="form-control" required>
                         <option value="">Pilih Bulan</option>
                         <?php for($i=1; $i<=12; $i++): ?>
-                            <option value="<?= $i ?>" <?= (isset($_GET['bulan']) && $_GET['bulan'] == $i) ? 'selected' : '' ?>>
+                            <option value="<?= $i ?>" <?= ($i == $bulan) ? 'selected' : '' ?>>
                                 <?= date('F', mktime(0, 0, 0, $i, 1)) ?>
                             </option>
                         <?php endfor; ?>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="number" name="tahun" class="form-control" placeholder="Tahun" value="<?= isset($_GET['tahun']) ? $_GET['tahun'] : date('Y') ?>" required>
+                    <input type="number" name="tahun" class="form-control" placeholder="Tahun" value="<?= $tahun ?>" required>
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary">Tampilkan</button>
                 </div>
             </form>
 
-            <!-- Tombol cetak -->
-            <?php if (isset($_GET['bulan']) && isset($_GET['tahun'])): ?>
-                <a href="cetak_laporan.php?bulan=<?= $_GET['bulan'] ?>&tahun=<?= $_GET['tahun'] ?>" class="btn btn-success btn-sm mt-2">
-                    <i class="fas fa-print"></i> Cetak Laporan
-                </a>
-            <?php endif; ?>
+            <!-- Tombol cetak tetap muncul, meski belum submit -->
+            <a href="cetak_laporan.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" class="btn btn-success btn-sm mt-2">
+                <i class="fas fa-print"></i> Cetak Laporan
+            </a>
         </div>
     </div>
 
