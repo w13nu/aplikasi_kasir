@@ -416,13 +416,13 @@ if(isset($_POST['tambahcuy'])){
                                         <option value="Cash">Cash</option>
                                         <option value="QRIS">QRIS</option>
                                     </select>
-                                    <input type="number" class="form-control form-control-sm bg-white" placeholder="0"
+                                    <input type="number" value="Rp" class="form-control form-control-sm bg-white" placeholder="0"
                                     name="pembayaran" id="bayarnya" onchange="totalnya()" required>
 
                                 </div>
                                 <div class="col-5 text-right pt-1 pr-2" style="font-weight:500;">Kembalian :</div>
                                 <div class="col-7 pl-0">
-                                    <input type="text" class="form-control form-control-sm bg-white" 
+                                    <input type="text" value="Rp <?php echo ribuan(0); ?>" class="form-control form-control-sm bg-white" 
                                     placeholder="0" name="kembalian" id="total1" readonly>
                             </div>
                             </div>
@@ -444,7 +444,7 @@ if(isset($_POST['tambahcuy'])){
 </div><!-- end col-lg-9 -->
 
 </div><!-- end row -->
-<b><marquee bgcolor="yellow">SELAMAT DATANG DI TOKO BERKAH | SILAHKAN TELITI ULANG BARANG YANG SUDAH DI INPUT | TOKO BERKAH MELAYANI DENGAN SEPENUH HATI DAN SEPENUH JIWA</marquee></b>
+<b><marquee bgcolor="yellow">SELAMAT DATANG DI TOKO ANUGRAH TANI | SILAHKAN TELITI ULANG BARANG YANG SUDAH DI INPUT | TOKO AUNGRAH TANI MELAYANI DENGAN SEPENUH HATI DAN SEPENUH JIWA</marquee></b>
 <?php 
 if(isset($_POST['save'])){
     $nonota = $_POST['no_nota'];

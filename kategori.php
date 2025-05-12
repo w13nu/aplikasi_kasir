@@ -37,7 +37,7 @@ if (isset($_POST['update'])) {
                 <h1><i class="fas fa-box-open me-2 text-primary"></i>Kategori</h1>
                 <nav aria-label="breadcrumb" class="breadcrumb-container">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="index-asli.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-content="page">Kategori</li>
                     </ol>
                 </nav>

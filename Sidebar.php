@@ -1,12 +1,11 @@
 <?php
 include "config.php";
+include_once 'helpers.php';
+
 session_start();
   if($_SESSION['status']!="login"){
     header("location:login.php");
   }
-  function ribuan ($nilai){
-    return number_format ($nilai, 0, ',', '.');
-}
 $result1 = mysqli_query($conn, "SELECT * FROM login");
 while($data = mysqli_fetch_array($result1))
 {
@@ -212,9 +211,9 @@ while($data = mysqli_fetch_array($result1))
   <div class="sidebar-menu">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'index-asli.php' || basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>" href="index-asli.php">
+        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard.php' || basename($_SERVER['PHP_SELF']) == 'dashboard.php') ? 'active' : ''; ?>" href="dashboard.php">
           <i class="fa fa-desktop"></i>
-          <span>Transaksi</span>
+          <span>Dashboard</span>
         </a>
       </li>
       <li class="nav-item">
@@ -279,6 +278,9 @@ while($data = mysqli_fetch_array($result1))
       <button class="menu-toggler" id="menu-toggle">
         <i class="fa fa-bars"></i>
       </button>
+      <div class="ml-3">
+        <h5 class="mb-0">ADMIN TOKO</h5>
+      </div>
     </div>
   </div>
   

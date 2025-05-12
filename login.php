@@ -12,7 +12,7 @@ if (!isset($conn) || !$conn) {
 // Jika sudah login, langsung arahkan sesuai role
 if (isset($_SESSION['status']) && $_SESSION['status'] === 'login') {
     if ($_SESSION['role'] === 'admin') {
-        header('Location: index-asli.php');
+        header('Location: dashboard.php');
     } else {
         header('Location: index.php');
     }
@@ -52,7 +52,7 @@ if (isset($_POST['login'])) {
             
             // 5. Redirect sesuai role
             if ($cari['role'] === 'admin') {
-                header('Location: index-asli.php');
+                header('Location: dashboard.php');
             } else {
                 header('Location: index.php');
             }
